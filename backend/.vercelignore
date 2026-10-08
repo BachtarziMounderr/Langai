@@ -1,0 +1,9 @@
+# Local-only files must never enter a CLI deployment bundle.
+.env
+.env.*
+.venv/
+__pycache__/
+.pytest_cache/
+.ruff_cache/
+tests/
+*.log

@@ -1,0 +1,1 @@
+export default function ServiceUnavailablePage() { return <main className="p-8"><h1 className="text-2xl">Service unavailable</h1><p>Could not check your session. Please try again shortly.</p></main>; }

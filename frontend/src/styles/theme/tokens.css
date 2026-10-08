@@ -1,0 +1,21 @@
+.student-app,
+.lingua-login {
+  --background: #f3f6f3;
+  --surface: #ffffff;
+  --surface-muted: #eaf1ed;
+  --text-primary: #183b42;
+  --text-secondary: #5c706e;
+  --academic: #24585a;
+  --academic-soft: #dbece5;
+  --academic-strong: #143a42;
+  --communication: #ad713f;
+  --communication-soft: #f5e5cf;
+  --communication-strong: #5b422f;
+  --success: #2b8064;
+  --warning: #a96936;
+  --border: #dbe5df;
+  --radius-card: 22px;
+  --shadow-card: 0 16px 42px rgba(22, 64, 60, .075);
+  --motion-fast: 180ms;
+  --motion-page: 300ms;
+}

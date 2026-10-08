@@ -1,0 +1,1 @@
+"""Global user identity model."""

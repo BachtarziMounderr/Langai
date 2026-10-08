@@ -1,0 +1,1 @@
+"""School organization data models."""

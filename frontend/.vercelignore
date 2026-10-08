@@ -1,0 +1,8 @@
+# The demo worksheet under public/demo-resources is intentionally deployed.
+.env
+.env.*
+.next/
+node_modules/
+tests/
+test-results/
+*.log
