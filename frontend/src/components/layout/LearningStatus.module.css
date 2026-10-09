@@ -1,0 +1,20 @@
+.page { min-height: 100dvh; display: flex; flex-direction: column; color: var(--learning-ink); background: var(--learning-paper); }
+.header { background: var(--learning-navy); color: white; padding: 24px max(24px,calc((100vw - 1140px)/2)); }
+.header a { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 12px; font-family: var(--learning-serif); font-size: 17px; }
+.header a span { color: #efd17a; font: 10px var(--learning-sans); letter-spacing: .1em; margin-left: 8px; }
+.main { width: min(100% - 40px,640px); margin: auto; padding: 64px 0; }
+.eyebrow { color: var(--learning-gold-ink); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; margin-bottom: 18px; }
+.main h1 { font: 400 clamp(34px,4vw,48px)/1.15 var(--learning-serif); letter-spacing: -.03em; text-wrap: balance; }
+.description { font-size: 15px; line-height: 1.8; color: var(--learning-muted); margin-top: 20px; overflow-wrap: anywhere; }
+.actions { display: grid; gap: 14px; margin-top: 32px; }
+.choice { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px; width: 100%; min-height: 84px; border: 1px solid var(--learning-border); border-left: 3px solid var(--learning-gold); border-radius: 6px; padding: 20px 24px; background: white; text-align: left; cursor: pointer; }
+.choice:hover { background: #fbf8f0; }
+.choice strong { font-size: 16px; overflow-wrap: anywhere; }
+.choice span { color: var(--learning-muted); font-size: 12px; }
+.button { display: inline-flex; justify-content: center; align-items: center; justify-self: start; min-height: 46px; padding: 12px 22px; border-radius: 5px; background: var(--learning-gold); color: var(--learning-navy); font-size: 13px; font-weight: 600; cursor: pointer; }
+.button:disabled { opacity: .5; cursor: wait; }
+.button:hover { background: #f8d568; }
+.footer { border-top: 1px solid var(--learning-border); padding: 25px; color: var(--learning-muted); font-size: 12px; text-align: center; }
+
+.skip { position: fixed; top: 12px; left: 12px; z-index: 100; transform: translateY(-180%); padding: 12px 18px; background: white; border-radius: 4px; color: #101727; font-size: 14px; }
+.skip:focus { transform: translateY(0); }

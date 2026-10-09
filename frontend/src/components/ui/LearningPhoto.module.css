@@ -1,0 +1,23 @@
+.frame { position: relative; overflow: hidden; isolation: isolate; background: linear-gradient(135deg,#e7d9b6,#f2ead7 55%,#d5c59d); }
+.illustration { position: absolute; inset: 0; z-index: 1; display: grid; place-items: center; overflow: hidden; background: inherit; transition: opacity 450ms ease; pointer-events: none; }
+.orbit { position: absolute; width: 78%; aspect-ratio: 1; border: 1px solid #a9905150; border-radius: 50%; }
+.orbit::after { content: ""; position: absolute; inset: 14%; border: 1px solid #a9905140; border-radius: 50%; }
+.sheet { position: relative; display: flex; flex-direction: column; gap: 14px; width: 48%; padding: 12% 9%; border-radius: 8px; background: #fffdf6; color: #807044; box-shadow: 10px 15px 0 #b7a16e30; transform: rotate(-8deg); }
+.sheet > span { height: 2px; background: #c4b58d; }
+.sheet > span:last-child { width: 60%; }
+.seal { position: absolute; right: 17%; bottom: 16%; display: grid; place-items: center; width: 58px; height: 58px; border: 1px solid #e8c875; border-radius: 50%; background: #172239; color: #efd17a; }
+.conversation { background: linear-gradient(140deg,#253953,#111b30); }
+.conversation .sheet { background: #ffffff0d; color: #f0d992; border: 1px solid #ffffff20; transform: rotate(7deg); }
+.conversation .sheet > span { background: #f0d99260; }
+.photo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: var(--photo-position,50% 50%); filter: saturate(.94); }
+@media(max-width:600px) { .photo { object-position: var(--photo-mobile-position,var(--photo-position,50% 50%)); } }
+.ready .illustration { opacity: 0; }
+.loading { position: absolute; inset: 0; z-index: 2; background: #ffffff20; animation: breathe 1.4s ease-in-out 3 alternate; }
+@keyframes breathe { from { opacity: .3; } to { opacity: .8; } }
+@media (prefers-reduced-motion: reduce) { .illustration { transition: none; } .loading { animation: none; } }
+
+/* Small conversation thumbnails retain a legible, unclipped fallback. */
+.compact .sheet { width: 68%; padding: 12%; gap: 7px; }
+.compact .sheet > svg { width: 25px; height: 25px; }
+.compact .seal { width: 25px; height: 25px; right: 9%; bottom: 12%; }
+.compact .seal > svg { width: 13px; height: 13px; }

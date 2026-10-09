@@ -1,0 +1,19 @@
+/* Added only by the observer. Server-rendered content stays readable by default. */
+/* Keep the section/anchor itself stationary while its existing content rises. */
+.reveal > * {
+  opacity: 0;
+  transform: translateY(42px);
+}
+
+.reveal.visible > * {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 900ms cubic-bezier(.2,.8,.2,1), transform 900ms cubic-bezier(.2,.8,.2,1);
+}
+
+/* Explicitly stop an active transition when keyboard focus needs the content. */
+.instant > * { opacity: 1; transform: none; transition: none; }
+
+@media(prefers-reduced-motion:reduce) {
+  .reveal > *,.reveal.visible > * { opacity: 1; transform: none; transition: none; }
+}

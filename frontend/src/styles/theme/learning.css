@@ -1,0 +1,17 @@
+.learning-theme {
+  --learning-navy: #101727;
+  --learning-card: #1b2335;
+  --learning-gold: #efc343;
+  --learning-gold-ink: #795809;
+  --learning-white: #ffffff;
+  --learning-paper: #f6f7f9;
+  --learning-ink: #20283a;
+  --learning-muted: #626b7a;
+  --learning-border: #e1e4ea;
+  --learning-serif: Georgia, "Times New Roman", serif;
+  --learning-sans: "Segoe UI", system-ui, sans-serif;
+  font-family: var(--learning-sans);
+}
+.learning-theme :where(a, button, input):focus-visible { outline: 3px solid #bf901c; outline-offset: 4px; }
+.learning-theme :where(a, button, summary) { touch-action: manipulation; -webkit-tap-highlight-color: #efc34333; }
+.learning-theme :where(h1,h2,h3,a,button,input,summary) { scroll-margin-top: 100px; }

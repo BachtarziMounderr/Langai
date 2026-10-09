@@ -1,0 +1,127 @@
+.dashboard { background: var(--learning-white); color: var(--learning-ink); }
+.dashboard :is(h1,h2,h3,h4) { letter-spacing: -.025em; }
+.dashboard h1,.dashboard h2 { font-family: var(--learning-serif); font-weight: 600; text-wrap: balance; }
+.hero { position: relative; isolation: isolate; display: grid; place-items: center; min-height: 100vh; min-height: 100svh; padding-top: var(--learning-header-height); background: radial-gradient(ellipse at 75% 35%,#293953,transparent 62%),var(--learning-navy); color: white; overflow: hidden; }
+.hero::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg,#10172788,#101727b8 55%,#101727d4); }
+.heroPhoto { position: absolute; inset: 0; z-index: -2; }
+.heroInner { width: min(100%,1180px); padding: 60px 24px 120px; text-align: center; }
+.heroLabel { color: #ead39a; font-size: 14px; margin-bottom: 22px; }
+.hero h1 { font-size: clamp(34px,4.2vw,66px); line-height: 1.13; overflow-wrap: anywhere; }
+.heroDescription { margin: 24px auto 28px; font-size: 16px; line-height: 1.8; color: #e1e5ee; }
+.actions { display: flex; justify-content: center; gap: 14px; flex-wrap: wrap; }
+.primary,.outline { display: inline-flex; align-items: center; justify-content: center; gap: 12px; min-height: 46px; padding: 12px 22px; border-radius: 5px; font-size: 14px; font-weight: 650; border: 1px solid transparent; }
+.primary { background: var(--learning-gold); color: var(--learning-navy); box-shadow: 0 5px 18px #0002; }
+.primary:hover { background: #ffda67; }
+.outline { border-color: #ffffff90; color: white; }
+.outline:hover { background: #ffffff13; }
+.languageStrip { display: flex; align-items: center; justify-content: center; gap: 36px; flex-wrap: wrap; padding: 22px 24px; border-bottom: 1px solid var(--learning-border); }
+.languageStrip a { display: inline-flex; gap: 12px; align-items: center; font-size: 14px; }
+.languageStrip a > svg { color: var(--learning-gold-ink); }
+.languageStrip a > span { color: var(--learning-muted); font-size: 12px; }
+.demoNote { color: var(--learning-muted); font-size: 12px; border-left: 1px solid var(--learning-border); padding-left: 32px; }
+.section { max-width: 1160px; margin: 0 auto; padding: 78px 30px; }
+.lessonSection { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(32px,6vw,84px); align-items: center; }
+.eyebrow { color: var(--learning-gold-ink); font-size: 12px; font-weight: 650; margin-bottom: 12px; }
+.lessonCopy h2 { font-size: clamp(29px,3vw,40px); line-height: 1.2; max-width: 420px; }
+.body { color: var(--learning-muted); font-size: 14px; line-height: 1.8; margin: 20px 0 24px; max-width: 450px; }
+.lessonDetails { border-left: 3px solid var(--learning-gold); padding-left: 20px; margin-bottom: 24px; }
+.lessonDetails > span:first-child { color: var(--learning-muted); font-size: 12px; }
+.lessonDetails h3 { font-family: var(--learning-serif); font-size: 25px; margin: 5px 0 8px; }
+.lessonDetails p { font-size: 14px; line-height: 1.65; margin-bottom: 12px; }
+.duration { display: flex; flex-wrap: wrap; align-items: center; gap: 7px; font-size: 12px; color: var(--learning-muted); }
+.textLink { display: inline-flex; align-items: center; gap: 10px; min-height: 44px; font-size: 13px; font-weight: 650; color: var(--learning-ink); }
+.textLink:hover,.cardLink:hover { text-decoration: underline; text-underline-offset: 4px; }
+.lessonVisual { position: relative; padding-bottom: 35px; min-width: 0; width: 100%; max-width: 510px; justify-self: end; }
+.lessonPhoto { aspect-ratio: 1.5; border-radius: 17px; border-right: 4px solid var(--learning-gold); box-shadow: 0 10px 25px #1017270d; }
+.resource { position: relative; margin: -64px 22px 0 -16px; display: flex; align-items: center; gap: 15px; padding: 20px; border-radius: 7px; background: white; box-shadow: 0 5px 20px #10172724; border-bottom: 3px solid var(--learning-gold); }
+.resource > svg { flex-shrink: 0; color: var(--learning-gold-ink); }
+.resource > div { display: grid; gap: 5px; min-width: 0; }
+.resource span,.resource small { font-size: 11px; color: var(--learning-muted); }
+.resource strong { font-size: 14px; line-height: 1.5; }
+.resource:hover strong { text-decoration: underline; }
+.centerHeading { text-align: center; max-width: 680px; margin: 0 auto 36px; }
+.centerHeading h2 { font-size: clamp(27px,2.7vw,36px); line-height: 1.2; }
+.centerHeading h2::after { content: ""; display: block; width: 42px; height: 2px; background: var(--learning-gold); margin: 17px auto; }
+.centerHeading > p:last-child:not(.eyebrow) { color: var(--learning-muted); font-size: 14px; line-height: 1.7; }
+.lessonSection + .section { padding-top: 25px; }
+.pathGrid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 24px; }
+.pathCard { position: relative; transition: transform 280ms cubic-bezier(.2,.75,.25,1); overflow: hidden; padding: 10px; background: white; border: 1px solid var(--learning-border); border-radius: 17px; box-shadow: 0 5px 13px #10172712; }
+.pathPhoto { transition: transform 380ms cubic-bezier(.2,.75,.25,1); transform-origin: center; aspect-ratio: 1.65; border-radius: 11px; }
+.pathContent { padding: 22px 14px 16px; text-align: center; }
+.cardMeta { font-size: 11px; color: var(--learning-gold-ink); }
+.pathContent h3 { font-family: var(--learning-serif); font-size: 23px; margin: 8px 0 12px; line-height: 1.25; }
+.pathContent p { color: var(--learning-muted); font-size: 13px; line-height: 1.7; min-height: 65px; }
+.cardLink { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 44px; font-size: 12px; font-weight: 650; margin-top: 14px; }
+.toolsSection { background: linear-gradient(125deg,var(--learning-navy),#151d30); color: white; padding: 66px 30px 76px; }
+.toolsInner { max-width: 1100px; margin: auto; }
+.toolsSection .eyebrow { color: #efd17a; }
+.toolsSection .centerHeading > p:last-child { color: #c6cbd6; }
+.toolsGrid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 18px; max-width: 950px; margin: auto; }
+.tool { display: grid; justify-items: center; text-align: center; padding: 26px 24px; background: #ffffff04; border: 1px solid #ffffff0c; border-radius: 11px; transition: transform 220ms ease; }
+.tool:hover,.tool:focus-visible { background: #ffffff0c; }
+.tool > span { display: grid; place-items: center; height: 48px; width: 48px; border-radius: 50%; background: #ffffff05; color: #efd17a; }
+.tool h3 { font-family: var(--learning-sans); font-size: 14px; font-weight: 600; margin: 14px 0 7px; }
+.tool p { max-width: 210px; color: #c6cbd6; font-size: 12px; line-height: 1.7; }
+.progressGrid { display: grid; grid-template-columns: 1.15fr 1.15fr 1fr; border: 1px solid var(--learning-border); border-radius: 8px; overflow: hidden; }
+.progressGrid > div { min-width: 0; padding: 30px 26px; }
+.progressGrid > div + div { border-left: 1px solid var(--learning-border); }
+.progressGrid h3 { font-family: var(--learning-serif); font-size: 22px; margin-bottom: 25px; }
+.languageRow { margin: 20px 0; }
+.languageRow > div { display: flex; justify-content: space-between; font-size: 13px; gap: 10px; font-variant-numeric: tabular-nums; }
+.languageRow > div span { color: var(--learning-muted); }
+.languageRow small { font-size: 11px; color: var(--learning-muted); }
+.languageRow progress { display: block; width: 100%; height: 6px; border: none; border-radius: 9px; overflow: hidden; appearance: none; margin: 11px 0 7px; background: #e9ebf0; }
+.languageRow progress::-webkit-progress-bar { background: #e9ebf0; }
+.languageRow progress::-webkit-progress-value { background: var(--learning-gold); }
+.languageRow progress::-moz-progress-bar { background: var(--learning-gold); }
+.chart { display: flex; gap: 10px; height: 150px; }
+.chart > div { display: flex; flex: 1; min-width: 0; flex-direction: column; align-items: center; gap: 7px; }
+.chart > div > span,.chart small { font-size: 10px; color: var(--learning-muted); font-variant-numeric: tabular-nums; }
+.barTrack { flex: 1; width: 100%; display: flex; align-items: end; }
+.barTrack > span { width: 100%; background: #d7b967; border-radius: 3px 3px 0 0; }
+.week > p { font-size: 11px; color: var(--learning-muted); margin-top: 18px; }
+.review { background: var(--learning-paper); }
+.review > svg { color: var(--learning-gold-ink); margin-bottom: 10px; }
+.review h3 { margin-bottom: 8px; }
+.review p { font-size: 12px; line-height: 1.7; color: var(--learning-muted); }
+.reviewCount { font-size: 26px; color: var(--learning-ink); margin-right: 5px; }
+.review ul { list-style: none; display: grid; gap: 8px; margin: 18px 0 9px; padding: 0; }
+.review li { display: flex; justify-content: space-between; font-size: 12px; }
+.cycle { padding-top: 15px; }
+.steps { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 36px; padding: 0; list-style: none; text-align: center; }
+.stepIcon { display: grid; place-items: center; margin: 0 auto 18px; height: 64px; width: 64px; border: 2px solid var(--learning-gold); border-radius: 50%; color: var(--learning-navy); }
+.steps h3 { font-size: 15px; font-weight: 650; margin-bottom: 9px; }
+.steps p { font-size: 13px; color: var(--learning-muted); line-height: 1.6; }
+.steps a { display: inline-block; margin-top: 12px; padding: 12px 0; font-size: 12px; text-decoration: underline; text-underline-offset: 4px; }
+.concepts { font-size: 12px; color: var(--learning-muted); text-align: center; margin-top: 34px; }
+@media(max-width:900px) { .section { padding: 60px 24px; } .lessonSection { gap: 30px; } .pathGrid { gap: 14px; } .pathContent { padding: 18px 7px 12px; } .progressGrid { grid-template-columns: repeat(2,minmax(0,1fr)); } .progressGrid .review { grid-column: 1 / -1; border-left: 0; border-top: 1px solid var(--learning-border); } .review ul { max-width: 320px; } }
+@media(max-width:600px) { .heroInner { padding: 48px 22px 112px; } .hero h1 { font-size: 34px; } .heroDescription { font-size: 14px; } .languageStrip { gap: 22px; padding: 20px; } .demoNote { width: 100%; text-align: center; border: 0; padding: 0; } .section { padding: 50px 22px; } .lessonSection { grid-template-columns: 1fr; gap: 30px; } .lessonVisual { padding: 0; justify-self: center; } .resource { margin-left: 10px; margin-right: 10px; padding: 16px; } .resource > svg:last-child { display: none; } .pathGrid { grid-template-columns: 1fr; gap: 24px; } .pathCard { max-width: 420px; width: 100%; margin: auto; } .pathContent p { min-height: 0; } .toolsSection { padding: 50px 22px; } .toolsGrid { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 12px; } .tool { padding: 20px 12px; } .tool p { font-size: 12px; } .progressGrid { grid-template-columns: 1fr; } .progressGrid > div + div { border-left: 0; border-top: 1px solid var(--learning-border); } .progressGrid .review { grid-column: auto; } .chart { max-width: 340px; } .steps { grid-template-columns: 1fr; gap: 32px; } .steps li { max-width: 300px; margin: auto; } .cycle { padding-top: 10px; } }
+
+
+
+/* Native smooth anchor scrolling keeps the fixed navigation clear. */
+.heroScroll { position: absolute; bottom: max(26px,env(safe-area-inset-bottom)); left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 10px 20px; white-space: nowrap; color: #f2e4bd; font-size: 12px; }
+.heroScroll:hover { color: white; }
+.lessonSection { scroll-margin-top: 100px; }
+.pathCard:focus-within { transform: translateY(-5px); border-color: #d5bd82; box-shadow: 0 12px 28px #10172716; }
+.pathCard:focus-within .cardLink { color: var(--learning-gold-ink); }
+.pathCard .cardLink svg { transition: transform 220ms ease; }
+.pathCard:focus-within .cardLink svg { transform: translateX(4px); }
+@media(hover:hover) and (pointer:fine) {
+  .pathCard:hover { transform: translateY(-7px); border-color: #d5bd82; box-shadow: 0 14px 30px #10172719; }
+  .pathCard:hover .pathPhoto { transform: scale(1.025); }
+  .pathCard:hover .cardLink { color: var(--learning-gold-ink); }
+  .pathCard:hover .cardLink svg { transform: translateX(4px); }
+  .tool:hover { transform: translateY(-4px); }
+}
+@media(max-height:600px) and (min-width:600px) {
+  .heroInner { padding: 16px 24px 76px; }
+  .hero h1 { font-size: clamp(28px,3.5vw,42px); }
+  .heroLabel { margin-bottom: 12px; }
+  .heroDescription { margin: 16px auto; font-size: 13px; }
+  .heroScroll { bottom: 8px; gap: 4px; }
+}
+@media(prefers-reduced-motion:reduce) {
+  .pathCard,.pathPhoto,.pathCard .cardLink svg,.tool { transition: none; }
+  .pathCard:hover,.pathCard:focus-within,.pathCard:hover .pathPhoto,.pathCard:focus-within .cardLink svg,.pathCard:hover .cardLink svg,.tool:hover { transform: none; }
+}

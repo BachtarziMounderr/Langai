@@ -1,77 +1,75 @@
 "use client";
 
 import Link from "next/link";
-import {
-  ArrowRight, ArrowUpRight, BookOpenText, FileText,
-  MessageCircleMore, Mic2, RotateCcw, Sparkles, TrendingUp,
-} from "lucide-react";
-import { courses, findLanguage, languages, needsAttention, reviews, scenarios, weeklyActivity } from "../demo-data";
+import type { MouseEvent } from "react";
+import { ArrowRight, BookOpenText, FileText, MessageCircleMore, Mic2, RotateCcw, TrendingUp, PencilLine, Clock3, ArrowDown } from "lucide-react";
+import { courses, findLanguage, languages, needsAttention, reviews, scenarios, teacherResources, weeklyActivity } from "../demo-data";
 import { useDemoProgress } from "./DemoProgress";
-import { AnimatedCount } from "./AnimatedCount";
-import { ProgressBar, SectionHeading } from "./StudentPrimitives";
-import { TeacherResources } from "./TeacherResources";
-import { VisualAsset } from "./VisualAsset";
+import { LearningPhoto } from "@/components/ui/LearningPhoto";
+import { learningVisuals } from "@/config/learning-visuals";
+import styles from "./StudentDashboard.module.css";
+
+function scrollToNextChapter(event: MouseEvent<HTMLAnchorElement>) {
+  if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+  const section = document.getElementById("next-chapter");
+  if (!section) return;
+  event.preventDefault();
+  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  section.scrollIntoView({ behavior: reducedMotion ? "instant" : "smooth", block: "start" });
+  window.history.replaceState(window.history.state, "", "#next-chapter");
+}
 
 export function StudentDashboard({ firstName }: { firstName?: string }) {
   const { getLanguageProgress, recentResult } = useDemoProgress();
   const course = courses[0];
   const lesson = course.lessons[0];
   const language = findLanguage(course.languageId);
-  const progress = getLanguageProgress(course.languageId);
   const scenario = scenarios.find((item) => item.languageId === course.languageId) ?? scenarios[0];
+  const resource = teacherResources.find((item) => item.courseId === course.id);
+  const lessonHref = `/student/learn/${course.id}/${lesson.id}`;
   const maxMinutes = Math.max(...weeklyActivity.map((day) => day.minutes), 1);
+  const tools = [
+    { icon: BookOpenText, title: "Lessons", detail: "Clear explanations, one idea at a time.", href: "/student/learn" },
+    { icon: PencilLine, title: "Exercises", detail: "Check what you learned in a short activity.", href: `${lessonHref}/exercise` },
+    ...(resource ? [{ icon: FileText, title: "Teacher resources", detail: "Open your lesson worksheet as a PDF.", href: `/student/learn/resources/${resource.id}` }] : []),
+    { icon: Mic2, title: "AI conversation", detail: "Speak or type. Listen to your partner reply.", href: `/student/practice/${scenario.id}` },
+    { icon: RotateCcw, title: "Reviews", detail: "Revisit vocabulary and useful expressions.", href: "/student/reviews" },
+    { icon: TrendingUp, title: "Progress", detail: "See your learning journey in this demo.", href: "/student/progress" },
+  ];
 
-  return <div className="student-dashboard space-y-9 pb-12">
-    <section data-student-reveal className="student-studio-hero" aria-labelledby="studio-title">
-      <div className="student-studio-copy">
-        <span className="student-studio-kicker"><Sparkles size={15} aria-hidden="true" /> Your learning studio</span>
-        <h1 id="studio-title">{firstName ? `${firstName}, keep` : "Keep"} your learning in motion.</h1>
-        <p>Pick up a lesson, then try its ideas in a real conversation.</p>
-        <div className="student-studio-actions"><Link href={`/student/learn/${course.id}/${lesson.id}`} className="student-primary-button student-button-sun">Continue lesson <ArrowRight size={17} aria-hidden="true" /></Link><Link href="/student/practice" className="student-hero-link">Explore conversation <ArrowUpRight size={16} aria-hidden="true" /></Link></div>
+  return <div data-student-home className={styles.dashboard}>
+    <section className={styles.hero} aria-labelledby="welcome-title">
+      {learningVisuals.hero.src && <LearningPhoto {...learningVisuals.hero} sizes="100vw" priority className={styles.heroPhoto} />}
+      <div className={styles.heroInner}>
+        <p data-student-enter className={styles.heroLabel}></p>
+        <h1 data-student-enter id="welcome-title">{firstName ? `Welcome back, ${firstName}.` : "Welcome back."}<br />A little learning goes a long way.</h1>
+        <p data-student-enter className={styles.heroDescription}>Learn something new. Find the words to use it.<br />Your next lesson and conversation are ready.</p>
+        <div data-student-enter className={styles.actions}><Link className={styles.primary} href={lessonHref}>Continue lesson <ArrowRight size={17} aria-hidden="true" /></Link><Link className={styles.outline} href={`/student/practice/${scenario.id}`}>Practise with AI</Link></div>
       </div>
-      <div className="student-studio-next"><VisualAsset kind="academic" imageSrc={course.coverImageSrc} className="student-studio-next-art" /><div className="student-studio-next-caption"><span>Ready when you are</span><strong>{lesson.title}</strong><span>{language?.name} · {language?.level} · {lesson.duration} min</span></div></div>
+      <a href="#next-chapter" onClick={scrollToNextChapter} className={styles.heroScroll}><span>Explore your learning space</span><ArrowDown size={18} aria-hidden="true" /></a>
     </section>
 
-    <section data-student-reveal aria-labelledby="languages-title" className="student-language-section">
-      <SectionHeading id="languages-title" title="Your languages" detail="Each language has its own learning journey" />
-      <div className="student-language-grid">{languages.map((item) => {
-        const itemProgress = getLanguageProgress(item.id);
-        const path = courses.find((candidate) => candidate.languageId === item.id);
-        return <Link key={item.id} href={path ? `/student/learn/${path.id}` : "/student/learn"} className={`student-language-card student-language-${item.color}`}>
-          <span className="student-language-monogram" aria-hidden="true">{item.name.slice(0, 2)}</span>
-          <span className="student-language-copy"><strong>{item.name}</strong><small>{path?.title}</small></span>
-          <span className="student-language-meter"><strong><AnimatedCount value={itemProgress.percent} suffix="%" /></strong><span>{itemProgress.completed} of {itemProgress.total} lessons · demo progress</span><ProgressBar value={itemProgress.percent} label={`${item.name} illustrative progress`} /></span>
-          <ArrowUpRight size={17} className="student-language-arrow" aria-hidden="true" />
-        </Link>;
-      })}</div>
+    <div className={styles.languageStrip} aria-label="Languages in this demo">{languages.map((item) => <Link key={item.id} href={courses.find((path) => path.languageId === item.id) ? `/student/learn/${courses.find((path) => path.languageId === item.id)!.id}` : "/student/learn"}><BookOpenText size={17} aria-hidden="true" /><strong>{item.name}</strong><span>{item.level}</span></Link>)}<span className={styles.demoNote}>Learning preview · demo content</span></div>
+
+    <section data-student-scene className={`${styles.section} ${styles.lessonSection}`} id="next-chapter" aria-labelledby="next-lesson-title">
+      <div className={styles.lessonCopy}><p className={styles.eyebrow}>Academic Path</p><h2 id="next-lesson-title">Your next chapter starts here.</h2><p className={styles.body}>Build the foundations in a lesson, then take them into a conversation. Keep your teacher&apos;s resources close as you practise.</p><div className={styles.lessonDetails}><span>{language?.name} · {language?.level}</span><h3>{lesson.title}</h3><p>{lesson.objective}</p><span className={styles.duration}><Clock3 size={15} aria-hidden="true" /> {lesson.duration} minutes · {course.title}</span></div><Link className={styles.textLink} href={lessonHref}>Open lesson <ArrowRight size={17} aria-hidden="true" /></Link></div>
+      <div className={styles.lessonVisual}><LearningPhoto {...learningVisuals.lesson} sizes="(max-width:600px) 100vw, (max-width:1160px) 45vw, 510px" className={styles.lessonPhoto} />{resource && <Link href={`/student/learn/resources/${resource.id}`} className={styles.resource}><FileText size={25} aria-hidden="true" /><div><span>From your teacher · {resource.format}</span><strong>{resource.title}</strong><small>{resource.pages} pages · {resource.sizeLabel}</small></div><ArrowRight size={18} aria-hidden="true" /></Link>}</div>
     </section>
 
-    <section aria-labelledby="paths-title" className="student-path-story">
-      <div data-student-reveal className="student-story-heading"><div><h2 id="paths-title">Learn it. Then use it.</h2><p>Two connected ways to build confidence in your language.</p></div><span className="student-story-line" aria-hidden="true" /></div>
+    <section data-student-scene className={styles.section} aria-labelledby="pathways-title"><div className={styles.centerHeading}><p className={styles.eyebrow}>Your learning pathways</p><h2 id="pathways-title">Knowledge meets conversation.</h2><p>Two connected paths, with space to grow in every language.</p></div><div className={styles.pathGrid}>
+      {courses.map((path) => { const item = findLanguage(path.languageId); const photo = learningVisuals.courses[path.id]; return <article key={path.id} className={styles.pathCard}><LearningPhoto {...photo} sizes="(max-width:600px) 100vw, (max-width:1160px) 33vw, 350px" src={photo?.src ?? path.coverImageSrc} alt={photo?.alt ?? path.title} className={styles.pathPhoto} /><div className={styles.pathContent}><span className={styles.cardMeta}>Academic Path · {item?.name} {item?.level}</span><h3>{path.title}</h3><p>{path.subtitle}</p><Link className={styles.cardLink} href={`/student/learn/${path.id}`}>Explore course <ArrowRight size={16} aria-hidden="true" /></Link></div></article>; })}
+      <article className={styles.pathCard}><LearningPhoto {...learningVisuals.conversation} sizes="(max-width:600px) 100vw, (max-width:1160px) 33vw, 350px" conversation className={styles.pathPhoto} /><div className={styles.pathContent}><span className={styles.cardMeta}>Communication Path</span><h3>Words for the real world.</h3><p>Try everyday situations with an AI partner. Speak or type at your own pace.</p><Link className={styles.cardLink} href="/student/practice">Explore situations <ArrowRight size={16} aria-hidden="true" /></Link></div></article>
+    </div></section>
 
-      <article data-student-reveal className="student-academic-path" aria-labelledby="academic-path-title">
-        <div className="student-path-heading"><span className="student-path-icon"><BookOpenText size={21} aria-hidden="true" /></span><div><h3 id="academic-path-title">Academic Path</h3><p>Structured learning with your school</p></div></div>
-        <div className="student-academic-grid">
-          <div className="student-academic-current"><p className="student-path-meta">{language?.name} · {language?.level} · Current course</p><h4>{course.title}</h4><p className="student-path-description">Build the language for stories you can tell outside the classroom.</p>
-            <div className="student-next-lesson"><span>Featured lesson</span><strong>{lesson.title}</strong><span>{lesson.duration} minutes of focused practice</span></div>
-            <div className="student-dark-meter"><div className="flex justify-between text-xs"><span>Language journey · demo</span><strong>{progress.percent}%</strong></div><div className="student-dark-progress"><div key={progress.percent} className="student-progress-fill" style={{ width: `${progress.percent}%` }} /></div></div>
-            <div className="student-path-actions"><Link href={`/student/learn/${course.id}/${lesson.id}`} className="student-primary-button student-button-light">Continue lesson <ArrowRight size={16} aria-hidden="true" /></Link><Link href={`/student/learn/${course.id}`} className="student-dark-link">View course <ArrowUpRight size={15} aria-hidden="true" /></Link></div>
-          </div>
-          <div className="student-academic-aside"><VisualAsset kind="academic" imageSrc={course.coverImageSrc} className="student-path-art" /><div className="student-path-resource"><div className="flex items-center gap-2"><FileText size={17} aria-hidden="true" /><strong>From your teacher</strong></div><TeacherResources courseId={course.id} compact /></div></div>
-        </div>
-      </article>
+    <section data-student-scene className={styles.toolsSection} aria-labelledby="tools-title"><div className={styles.toolsInner}><div className={styles.centerHeading}><p className={styles.eyebrow}>Everything in your learning space</p><h2 id="tools-title">Make each session your own.</h2><p>Read, try, speak and revisit. Choose what you need today.</p></div><div className={styles.toolsGrid}>{tools.map(({ icon: Icon, title, detail, href }) => <Link key={title} href={href} className={styles.tool}><span><Icon size={25} strokeWidth={1.4} aria-hidden="true" /></span><h3>{title}</h3><p>{detail}</p></Link>)}</div></div></section>
 
-      <div data-student-reveal className="student-learning-bridge" aria-label="From lesson to conversation"><div className="student-bridge-end"><span>In the lesson</span><strong>{lesson.title}</strong></div><div className="student-bridge-connector" aria-hidden="true"><span /><ArrowRight size={19} /></div><div className="student-bridge-end"><span>In real life</span><strong>{scenario.title}</strong></div><p>Use the past tense you studied when you talk about a meal you enjoyed.</p></div>
+    <section data-student-scene className={styles.section} aria-labelledby="progress-title"><div className={styles.centerHeading}><p className={styles.eyebrow}>Your learning journey</p><h2 id="progress-title">A steady rhythm, one step at a time.</h2><p>Sample progress and review counts are illustrative. Exercise results reflect your activity in this demo session.</p></div><div className={styles.progressGrid}>
+      <div className={styles.languageProgress}><h3>Your languages</h3>{languages.map((item) => { const progress = getLanguageProgress(item.id); return <div key={item.id} className={styles.languageRow}><div><strong>{item.name}</strong><span>{progress.percent}%</span></div><progress max={100} value={progress.percent} aria-label={`${item.name} demo progress`} /><small>{progress.completed} of {progress.total} lessons · demo</small></div>; })}<Link className={styles.textLink} href="/student/progress">View progress <ArrowRight size={16} aria-hidden="true" /></Link></div>
+      <div className={styles.week}><h3>This demo week</h3><div className={styles.chart} role="img" aria-label={weeklyActivity.map((day) => `${day.day}: ${day.minutes} minutes`).join(", ")}>{weeklyActivity.map((day) => <div key={day.day}><span>{day.minutes}</span><div className={styles.barTrack}><span style={{ height: `${day.minutes / maxMinutes * 100}%` }} /></div><small>{day.day}</small></div>)}</div><p>Sample activity in minutes</p></div>
+      <div className={styles.review}><RotateCcw size={24} aria-hidden="true" /><h3>Ready to revisit</h3><p><strong className={styles.reviewCount}>{reviews.due}</strong> items in the review preview</p><ul>{reviews.categories.map((item) => <li key={item.label}><span>{item.label}</span><strong>{item.count}</strong></li>)}</ul><Link className={styles.textLink} href="/student/reviews">Open reviews <ArrowRight size={16} aria-hidden="true" /></Link></div>
+    </div></section>
 
-      <article data-student-reveal className="student-communication-path" aria-labelledby="communication-path-title"><div className="student-path-heading"><span className="student-path-icon"><MessageCircleMore size={21} aria-hidden="true" /></span><div><h3 id="communication-path-title">Communication Path</h3><p>Make the next exchange your own</p></div></div>
-        <div className="student-communication-grid"><div className="student-communication-current"><p className="student-path-meta">Featured situation · {language?.name} {scenario.level} · {scenario.minutes} min</p><h4>{scenario.title}</h4><p className="student-path-description">{scenario.objective}</p><div className="student-focus-list"><span>Today you can practise</span>{scenario.focus.slice(0, 2).map((focus) => <strong key={focus}>{focus}</strong>)}</div><div className="student-path-actions"><Link href={`/student/practice/${scenario.id}`} className="student-primary-button student-button-ink">Start conversation <ArrowUpRight size={16} aria-hidden="true" /></Link><Link href="/student/practice" className="student-warm-link">Browse situations <ArrowRight size={15} aria-hidden="true" /></Link></div></div><div className="student-communication-aside"><VisualAsset kind="conversation" imageSrc={scenario.imageSrc} className="student-path-art" /><div className="student-voice-note"><Mic2 size={19} aria-hidden="true" /><span>Speak or type. Listen to your AI partner answer.</span></div></div></div>
-      </article>
-    </section>
+    <section data-student-scene className={`${styles.section} ${styles.cycle}`} aria-labelledby="cycle-title"><div className={styles.centerHeading}><p className={styles.eyebrow}>From lesson to life</p><h2 id="cycle-title">Learn it. Try it. Say it.</h2></div><ol className={styles.steps}><li><span className={styles.stepIcon}><BookOpenText size={24} aria-hidden="true" /></span><h3>Learn an idea</h3><p>{lesson.title}</p><Link href={lessonHref}>Read the lesson</Link></li><li><span className={styles.stepIcon}><PencilLine size={24} aria-hidden="true" /></span><h3>Put it into practice</h3><p>{recentResult ? `Latest exercise: ${Math.round(recentResult.score / recentResult.total * 100)}%.` : "Check your understanding in a short exercise."}</p><Link href={`${lessonHref}/exercise`}>Try the exercise</Link></li><li><span className={styles.stepIcon}><MessageCircleMore size={24} aria-hidden="true" /></span><h3>Use it in conversation</h3><p>{scenario.title}</p><Link href={`/student/practice/${scenario.id}`}>Start speaking</Link></li></ol><p className={styles.concepts}>Concepts to revisit in this demo: {needsAttention.join(", ")}.</p></section>
 
-    <section data-student-reveal className="student-dashboard-lower" aria-label="Your learning at a glance"><div className="student-dashboard-insights"><div className="student-insight-heading"><div><h2>Keep a steady rhythm</h2><p>Sample activity for this demo week</p></div><TrendingUp size={19} aria-hidden="true" /></div><div className="student-week-chart" role="img" aria-label={weeklyActivity.map((day) => `${day.day}: ${day.minutes} minutes`).join(", ")}>{weeklyActivity.map((day, index) => <div key={day.day} className="student-chart-day" title={`${day.day} — ${day.minutes} min`}><div className="student-chart-track"><div className="student-chart-bar" style={{ height: `${day.minutes / maxMinutes * 100}%`, animationDelay: `${index * 55}ms` }} /></div><span>{day.day}</span><span className="student-chart-tooltip" aria-hidden="true">{day.minutes} min</span></div>)}</div></div>
-      <div className="student-dashboard-review"><div className="student-insight-heading"><div><h2>Ready to revisit</h2><p>Illustrative review preview</p></div><RotateCcw size={19} aria-hidden="true" /></div><div className="student-review-total"><AnimatedCount value={reviews.due} /><span>items due today</span></div><div className="student-review-mini-list">{reviews.categories.map((category) => <span key={category.label}>{category.label} <strong>{category.count}</strong></span>)}</div><Link href="/student/reviews" className="student-text-link">View reviews <ArrowRight size={15} aria-hidden="true" /></Link></div>
-    </section>
-
-    <section data-student-reveal className="student-dashboard-foot"><div><p className="student-foot-label">Your next small step</p><h2>{recentResult ? `You scored ${Math.round(recentResult.score / recentResult.total * 100)}% on your latest exercise.` : "Make room for one more useful sentence."}</h2><p>Try the conversation after your lesson to use the same idea in context.</p><Link href={`/student/practice/${scenario.id}`} className="student-text-link">Practise now <ArrowRight size={15} aria-hidden="true" /></Link></div><div className="student-attention-list"><span>Concepts to revisit · demo</span>{needsAttention.map((item) => <strong key={item}>{item}</strong>)}</div></section>
   </div>;
 }

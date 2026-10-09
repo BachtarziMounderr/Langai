@@ -1,2 +1,5 @@
 import Link from "next/link";
-export default function ForbiddenPage() { return <main className="p-8"><h1 className="text-2xl">Access denied</h1><p>This workspace is not available in your active context.</p><Link className="underline" href="/select-context">Choose a workspace</Link></main>; }
+import { LearningStatus } from "@/components/layout/LearningStatus";
+import styles from "@/components/layout/LearningStatus.module.css";
+
+export default function ForbiddenPage() { return <LearningStatus title="Access denied" description="This workspace is not available in your active context."><Link className={styles.button} href="/select-context">Choose a workspace</Link></LearningStatus>; }

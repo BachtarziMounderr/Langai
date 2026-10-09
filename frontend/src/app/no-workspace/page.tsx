@@ -1,2 +1,5 @@
 import { LogoutButton } from "@/components/layout/LogoutButton";
-export default function NoWorkspacePage() { return <main className="p-8"><h1 className="text-2xl">No workspace available</h1><p>Ask an administrator for access.</p><LogoutButton /></main>; }
+import { LearningStatus } from "@/components/layout/LearningStatus";
+import styles from "@/components/layout/LearningStatus.module.css";
+
+export default function NoWorkspacePage() { return <LearningStatus title="No workspace available" description="Ask an administrator for access."><LogoutButton className={styles.button} /></LearningStatus>; }

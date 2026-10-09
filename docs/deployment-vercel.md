@@ -56,3 +56,35 @@ La seconde commande demande le mot de passe dans le terminal, sans argument ni f
 - PostgreSQL hébergé est obligatoire pour l'authentification. Redis, les workers Celery et le stockage S3 ne sont pas nécessaires pour tester cette V1.
 
 Références : [monorepos Vercel](https://vercel.com/docs/monorepos), [FastAPI sur Vercel](https://vercel.com/docs/frameworks/backend/fastapi), [réécritures Next.js](https://nextjs.org/docs/app/api-reference/config/next-config-js/rewrites), [variables Vercel](https://vercel.com/docs/environment-variables), [Postgres sur Vercel](https://vercel.com/docs/postgres), [limites des fonctions](https://vercel.com/docs/functions/limitations).
+
+
+## Publication de la V2 visuelle
+
+La V2 conserve les API, la base hébergée et le compte Étudiant de démonstration existants. Elle ajoute le thème navy/gold, les photos fournies, la cohérence des pages Student et login et les apparitions uniques au scroll. Les migrations et les variables Vercel restent identiques.
+
+- `main` : version publiée sur le domaine de production existant.
+- `v2` : branche de travail de la V2, également poussée sur GitHub.
+- `v1` : version locale préservée au commit `3fe35d9`, dans `C:/Users/bacht/Desktop/lingua-ai-platform-v1`.
+- V2 locale : `C:/Users/bacht/Desktop/lingua-ai-platform`.
+- Connexion hébergée : `https://frontend-seven-lime-44.vercel.app/login`.
+- API hébergée : `https://backend-three-eta-99.vercel.app/health`.
+
+Les identifiants du compte hébergé restent dans `backend/.env.production.local`, ignoré par Git : `DEMO_STUDENT_EMAIL` et `DEMO_STUDENT_PASSWORD`. Les fixtures DEV locales ne sont pas les identifiants de la base Neon. Aucun mot de passe n'est publié dans ce document.
+
+### Revenir à V1 localement
+
+V1 et V2 restent dans deux dossiers distincts. Une seule version utilise les ports locaux 3000/8000 à la fois. Pour tester V1 sur les services et volumes locaux existants :
+
+```powershell
+cd C:\Users\bacht\Desktop\lingua-ai-platform-v1
+docker compose -p lingua-ai-platform --env-file ..\lingua-ai-platform\.env up -d --build
+```
+
+Pour revenir à V2 :
+
+```powershell
+cd C:\Users\bacht\Desktop\lingua-ai-platform
+docker compose -p lingua-ai-platform up -d --build
+```
+
+Le nom de projet Docker reste identique pour conserver les volumes locaux. Le fichier d'environnement existant reste hors de Git ; ne pas supprimer les volumes pour changer de présentation. Ces commandes basculent uniquement l'environnement local. La publication Vercel est pilotée par `main`.

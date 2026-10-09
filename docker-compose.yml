@@ -2,6 +2,8 @@ services:
   frontend:
     build:
       context: ./frontend
+    # Polling keeps source changes visible through the Windows Docker mount.
+    command: ["pnpm", "dev", "--webpack", "--hostname", "0.0.0.0"]
     ports:
       - "127.0.0.1:3000:3000"
     environment:
