@@ -203,7 +203,7 @@ The supplied Portfolio code and requested timings are the reference for this rev
 
 ## Mobile sign-in photograph
 
-At 650 px and below, the existing desktop story photograph becomes a full-page backdrop behind the sign-in form. The entire background photograph has a static 12 px blur and an 8% scale inside the clipped story frame to avoid blurred edge gaps. The form is a separate, sharp layer. The story text is hidden; the existing mobile brand and form sit on a white surface with 95% opacity, a restrained shadow and the existing gold action. The desktop split layout and its unblurred photograph are preserved.
+At 650 px and below, the existing desktop story photograph becomes a full-page backdrop behind the sign-in form. The story text is hidden; the existing mobile brand and form sit on a white surface with 95% opacity, a small blur, a restrained shadow and the existing gold action. The desktop split layout is preserved.
 
 The same LearningPhoto instance and login configuration are reused. Its mobile sizes value is now 100vw instead of 1px so the visible background receives an appropriate image resolution. Empty or failed photos keep the existing illustrated fallback. Safe-area padding, 16 px inputs, scrolling on short screens and reduced motion remain supported. No authentication handler, credential, dependency or backend change is introduced.
 
