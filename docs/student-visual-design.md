@@ -128,7 +128,7 @@ Original JPEG files remain unchanged in frontend/public/student-visuals. CSS cro
 | File | Original dimensions | Placement |
 | --- | --- | --- |
 | bgc2.jpg | 3838 × 2513 | Student home hero; the central building remains the focal point on mobile |
-| bgc1.jpg | 736 × 1307 | Tall sign-in story panel, hidden on small screens |
+| bgc1.jpg | 736 × 1307 | Desktop sign-in story panel; full mobile sign-in backdrop |
 | image2.jpg | 678 × 452 | Next lesson, Academic Path hero, past-experiences course |
 | bgc3.jpg | 678 × 452 | everyday-situations course |
 | image4.jpg | 547 × 365 | Communication Path hero/card and small-talk situation |
@@ -200,3 +200,16 @@ The supplied Portfolio code and requested timings are the reference for this rev
 - All five home sections become readable without horizontal overflow at 360 x 640, 390 x 844, 768 x 1024, 1024 x 768, 1440 x 900, 1850 x 950 and 844 x 390. The full-screen hero, both learning actions, photos and hover effects remain intact; desktop/mobile screenshots were reviewed.
 - Free wheel scrolling remains native. Reduced motion passes both on load and when changed live. Keyboard focus exposes pending content and stops an active fade immediately. Content remains visible in separate browser contexts with JavaScript disabled and with IntersectionObserver unavailable.
 - Actual lesson and conversation routes and the observed course catalogue pass. No browser page errors. External AI generation is unchanged and was not invoked during these motion checks.
+
+## Mobile sign-in photograph
+
+At 650 px and below, the existing desktop story photograph becomes a full-page backdrop behind the sign-in form. The story text is hidden; the existing mobile brand and form sit on a white surface with 95% opacity, a small blur, a restrained shadow and the existing gold action. The desktop split layout is preserved.
+
+The same LearningPhoto instance and login configuration are reused. Its mobile sizes value is now 100vw instead of 1px so the visible background receives an appropriate image resolution. Empty or failed photos keep the existing illustrated fallback. Safe-area padding, 16 px inputs, scrolling on short screens and reduced motion remain supported. No authentication handler, credential, dependency or backend change is introduced.
+
+Browser checks pass at 320, 360, 390, 430, 650, 768 and 1440 px: photo decoding and coverage, no horizontal overflow, desktop columns, password visibility, inline error focus, actual DEV sign-in and logout, short viewport and failed-photo/reduced-motion fallback. Desktop and phone screenshots were reviewed; no browser page errors.
+
+Web Interface Guidelines review:
+
+- frontend/src/app/(auth)/login/Login.module.css:48 - pass: responsive background, readable form surface, safe areas and scrollable short-screen layout.
+- frontend/src/app/(auth)/login/page.tsx:111 - pass: one decorative photo with corrected mobile sizes; existing field labels, focus, password control and authentication preserved.

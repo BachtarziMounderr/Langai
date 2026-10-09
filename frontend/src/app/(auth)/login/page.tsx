@@ -93,7 +93,7 @@ export default function LoginPage() {
 
   return <main className={`learning-theme ${styles.login}`}>
     <section className={styles.story} aria-label="About Lingua">
-      {learningVisuals.login.src && <LearningPhoto {...learningVisuals.login} sizes="(max-width:650px) 1px, 52vw" priority className={styles.background} />}
+      {learningVisuals.login.src && <LearningPhoto {...learningVisuals.login} sizes="(max-width:650px) 100vw, 52vw" priority className={styles.background} />}
       <div className={styles.storyInner}>
         <div className={styles.brand}><span className={styles.brandMark}>L</span><strong>Lingua</strong></div>
         <div className={styles.storyCopy}><span className={styles.eyebrow}></span><p className={styles.storyTitle}>Find your words.<br />Find your confidence.</p><p>Clear lessons and real conversations, connected in one place.</p><div className={styles.storyPaths}><span><BookOpenText size={20} strokeWidth={1.5} aria-hidden="true" /> Academic Path</span><span><MessageCircleMore size={20} strokeWidth={1.5} aria-hidden="true" /> Communication Path</span></div></div>

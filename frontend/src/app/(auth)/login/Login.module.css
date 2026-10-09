@@ -1,4 +1,4 @@
-.login { display: grid; grid-template-columns: 1.08fr 1fr; min-height: 100dvh; color: var(--learning-ink); background: white; }
+.login { position: relative; isolation: isolate; display: grid; grid-template-columns: 1.08fr 1fr; min-height: 100dvh; color: var(--learning-ink); background: white; }
 .story { position: relative; isolation: isolate; overflow: hidden; background: radial-gradient(ellipse at 20% 80%,#2a3c56,transparent 65%),var(--learning-navy); color: white; }
 .story::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(160deg,#10172788,#101727d4); }
 .background { position: absolute; inset: 0; z-index: -2; }
@@ -45,4 +45,26 @@
 .access { padding-left: max(24px,env(safe-area-inset-left)); padding-right: max(24px,env(safe-area-inset-right)); }
 @media(prefers-reduced-motion:reduce) { .spinner { animation: none; } }
 @media(max-width:900px) { .login { grid-template-columns: .95fr 1fr; } .storyInner { padding: 34px 30px; } .storyTitle { font-size: 38px; } .storyPaths { flex-direction: column; gap: 18px; } .access { padding: 44px 32px; } }
-@media(max-width:650px) { .login { grid-template-columns: 1fr; } .story { display: none; } .access { padding: 42px 24px; min-height: 100dvh; align-content: center; } .mobileBrand { display: flex; color: var(--learning-navy); margin-bottom: 42px; } .mobileBrand .brandMark { color: var(--learning-gold-ink); border-color: #dab23c; } .card h1 { font-size: 37px; } }
+@media(max-width:650px) {
+  .login { grid-template-columns: 1fr; background: var(--learning-navy); }
+  /* Reuse the desktop photo as the mobile backdrop, without a second image. */
+  .story { position: absolute; inset: 0; z-index: -1; }
+  .story::after { background: linear-gradient(180deg,#10172752,#101727b3); }
+  .storyInner { display: none; }
+  .access {
+    min-height: 100dvh;
+    align-content: center;
+    padding: max(28px,env(safe-area-inset-top)) max(20px,env(safe-area-inset-right)) max(28px,env(safe-area-inset-bottom)) max(20px,env(safe-area-inset-left));
+  }
+  .card {
+    padding: clamp(20px,6vw,28px);
+    background: #fffffff2;
+    border: 1px solid #ffffff80;
+    border-radius: 12px;
+    box-shadow: 0 18px 48px #10172730;
+    backdrop-filter: blur(6px);
+  }
+  .mobileBrand { display: flex; color: var(--learning-navy); margin-bottom: 30px; }
+  .mobileBrand .brandMark { color: var(--learning-gold-ink); border-color: #dab23c; }
+  .card h1 { font-size: 37px; }
+}
