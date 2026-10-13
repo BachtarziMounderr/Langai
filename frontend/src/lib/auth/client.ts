@@ -55,6 +55,17 @@ async function refreshOnce(): Promise<AccessResponse> {
 }
 
 export const authClient = {
+  async request<T>(path: string, init: RequestInit = {}): Promise<T> {
+    if (!accessToken) await this.refresh();
+    const send = () => fetch(`${apiBaseUrl}${path}`, {
+      ...init, credentials: "include", cache: "no-store",
+      headers: { "Content-Type": "application/json", ...init.headers, Authorization: `Bearer ${accessToken}` },
+    });
+    let response = await send();
+    if (response.status === 401) { await this.refresh(); response = await send(); }
+    if (!response.ok) throw await readError(response);
+    return response.json() as Promise<T>;
+  },
   async studentDemoTurn(payload: {
     context_id: string; scenario_id: string; text?: string; audio_base64?: string;
     audio_mime?: string; history: { role: "user" | "assistant"; text: string }[];

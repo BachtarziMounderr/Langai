@@ -52,7 +52,7 @@ La seconde commande demande le mot de passe dans le terminal, sans argument ni f
 
 - `FRONTEND_URL` accepte une seule origine exacte. Les URL de Preview Vercel qui changent à chaque branche ne permettent pas une session authentifiée sans configuration d'origine correspondante. Tester d'abord le domaine de production stable.
 - Le PDF de démonstration est **public** car servi depuis `public/`. Ne pas y déposer de documents scolaires privés. Leur accès demandera plus tard l'API autorisée et un stockage S3 compatible.
-- Les conversations, scores et progrès de cette maquette ne constituent pas encore un moteur pédagogique persistant. Les requêtes vocales utilisent les limites des fonctions Vercel, notamment la taille de charge utile de 4,5 Mo ; l'application limite déjà les enregistrements à 1,5 Mo.
+- Les conversations restent une démonstration. Depuis la révision V2 Évaluation, les résultats des exercices sont persistants ; le SRS, la validation des cours et les notes professeur restent à implémenter. Les requêtes vocales utilisent les limites des fonctions Vercel, notamment la taille de charge utile de 4,5 Mo ; l'application limite déjà les enregistrements à 1,5 Mo.
 - PostgreSQL hébergé est obligatoire pour l'authentification. Redis, les workers Celery et le stockage S3 ne sont pas nécessaires pour tester cette V1.
 
 Références : [monorepos Vercel](https://vercel.com/docs/monorepos), [FastAPI sur Vercel](https://vercel.com/docs/frameworks/backend/fastapi), [réécritures Next.js](https://nextjs.org/docs/app/api-reference/config/next-config-js/rewrites), [variables Vercel](https://vercel.com/docs/environment-variables), [Postgres sur Vercel](https://vercel.com/docs/postgres), [limites des fonctions](https://vercel.com/docs/functions/limitations).
@@ -88,3 +88,19 @@ docker compose -p lingua-ai-platform up -d --build
 ```
 
 Le nom de projet Docker reste identique pour conserver les volumes locaux. Le fichier d'environnement existant reste hors de Git ; ne pas supprimer les volumes pour changer de présentation. Ces commandes basculent uniquement l'environnement local. La publication Vercel est pilotée par `main`.
+
+
+## Publication V2 : exercices et statistiques
+
+Avant de déployer cette révision, appliquer la migration additive `e19c72bfa610` sur la base Neon utilisée par le backend. Depuis `backend/`, dans une session disposant de son `DATABASE_URL` hébergé, sans imprimer ni versionner la valeur :
+
+```powershell
+python -m alembic upgrade head
+python -m app.modules.catalog.seed_demo
+```
+
+Ces commandes ajoutent deux tables de progression et les références de langues manquantes, sans remplacer les comptes, les notes ou les données existantes. Ne pas lancer les fixtures DEV et ne pas recréer le compte hébergé. Les résultats réalisés localement ne sont pas transférés à Neon.
+
+Le nouveau module utilise la clé `GEMINI_API_KEY` déjà configurée. `GEMINI_EXERCISE_MODEL` est facultatif et choisit le modèle de génération d’exercices ; s’il est vide, le défaut est `gemini-3.1-flash-lite`, testé avec le PDF de démonstration. Le modèle de conversation `GEMINI_MODEL` reste indépendant. Aucun secret frontend ou changement d’URL n’est nécessaire.
+
+Après déploiement de `main`, vérifier le compte Étudiant existant, `/student/progress`, un exercice de leçon, la génération de six questions, le résultat après rechargement et la déconnexion mobile. Les catégories sans évaluation, notamment l’oral, restent vides. Les questions IA demeurent des exercices d’entraînement ; la notation professeur n’est pas implémentée. Voir [student-assessment.md](student-assessment.md).

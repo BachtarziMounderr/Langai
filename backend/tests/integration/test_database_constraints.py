@@ -68,6 +68,8 @@ class DatabaseConstraintTests(unittest.TestCase):
             "courses",
             "lessons",
             "auth_sessions",
+            "learning_practice_sets",
+            "learning_practice_attempts",
         }
         self.assertEqual(
             expected, set(inspect(self.connection).get_table_names()) - {"alembic_version"}

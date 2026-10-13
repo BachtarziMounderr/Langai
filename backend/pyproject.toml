@@ -32,6 +32,9 @@ dev = [
 where = ["."]
 include = ["app*"]
 
+[tool.setuptools.package-data]
+"app.modules.learning" = ["lesson_catalog.json"]
+
 [tool.ruff]
 target-version = "py313"
 line-length = 100

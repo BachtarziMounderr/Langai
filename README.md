@@ -43,3 +43,7 @@ La V1 peut être déployée sur Vercel comme **deux projets issus du même dép�
 ## Structure
 
 `frontend/` contient l'interface et ses ressources publiques ; `backend/` contient FastAPI, ses modules et les migrations ; `infra/` contient les fichiers Docker ; `docs/` les décisions et règles du projet ; `scripts/` les utilitaires ; `tests/` les tests de bout en bout futurs. Aucune logique hors ligne, worker Celery ou stockage S3 actif n'est présent dans cette V1.
+
+## V2 : exercices et statistiques Étudiant
+
+Les exercices et les résultats sont désormais corrigés et persistés par FastAPI. Le détail des règles, de la génération depuis les leçons/PDF, des limites de la partie professeur et du démarrage local figure dans [docs/student-assessment.md](docs/student-assessment.md). La publication sur Vercel nécessite la migration de progression et le seed du catalogue, décrits dans [le guide de déploiement](docs/deployment-vercel.md).

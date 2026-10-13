@@ -32,6 +32,20 @@ export function StudentNavigation({ contextLabel, canSwitch, fullName, email, in
     wide.addEventListener("change", resize);
     return () => { document.removeEventListener("keydown", close); wide.removeEventListener("change", resize); };
   }, [open]);
+  useEffect(() => {
+    // Touch browsers can blur the summary without focusing the pressed button.
+    // Close on an actual outside interaction, keeping internal taps actionable.
+    const closeProfileOutside = (event: PointerEvent | FocusEvent) => {
+      const details = profile.current;
+      if (details?.open && event.target instanceof Node && !details.contains(event.target)) details.open = false;
+    };
+    document.addEventListener("pointerdown", closeProfileOutside, true);
+    document.addEventListener("focusin", closeProfileOutside);
+    return () => {
+      document.removeEventListener("pointerdown", closeProfileOutside, true);
+      document.removeEventListener("focusin", closeProfileOutside);
+    };
+  }, []);
   const closeMenu = () => { setOpen(false); if (profile.current) profile.current.open = false; };
 
   return <header className={`${styles.header} ${path === "/student" ? styles.homeHeader : ""}`}><div className={styles.headerInner}>
@@ -39,7 +53,7 @@ export function StudentNavigation({ contextLabel, canSwitch, fullName, email, in
     <button ref={trigger} className={styles.menuToggle} type="button" aria-label={open ? "Close navigation" : "Open navigation"} aria-expanded={open} aria-controls="student-navigation" onClick={() => setOpen(!open)}>{open ? <X size={23} aria-hidden="true" /> : <Menu size={23} aria-hidden="true" />}</button>
     <div id="student-navigation" className={`${styles.navigation} ${open ? styles.open : ""}`}>
       <nav aria-label="Student navigation" className={styles.links}>{items.map(({ label, href }) => <Link key={href} href={href} aria-current={(href === "/student" ? path === href : path.startsWith(href)) ? "page" : undefined} onClick={closeMenu}>{label}</Link>)}</nav>
-      <details ref={profile} className={styles.profile} onBlur={(event) => { if (!event.currentTarget.contains(event.relatedTarget)) event.currentTarget.open = false; }}><summary aria-label={`Profile and workspace: ${fullName}, ${contextLabel}`}><span className={styles.avatar} aria-hidden="true">{initials}</span><span className={styles.summaryText}><strong title={contextLabel}>{contextLabel}</strong><small title={fullName}>{fullName}</small></span><ChevronDown size={15} aria-hidden="true" /></summary><div className={styles.profilePanel}><strong>{fullName}</strong><span>{email}</span><span className={styles.profileContext}>{contextLabel}</span>{canSwitch && <Link href="/select-context" onClick={closeMenu}>Switch context</Link>}<LogoutButton className={styles.logout} label={<><LogOut size={16} aria-hidden="true" /> Log out</>} /></div></details>
+      <details ref={profile} className={styles.profile}><summary aria-label={`Profile and workspace: ${fullName}, ${contextLabel}`}><span className={styles.avatar} aria-hidden="true">{initials}</span><span className={styles.summaryText}><strong title={contextLabel}>{contextLabel}</strong><small title={fullName}>{fullName}</small></span><ChevronDown size={15} aria-hidden="true" /></summary><div className={styles.profilePanel}><strong>{fullName}</strong><span>{email}</span><span className={styles.profileContext}>{contextLabel}</span>{canSwitch && <Link href="/select-context" onClick={closeMenu}>Switch context</Link>}<LogoutButton className={styles.logout} label={<><LogOut size={16} aria-hidden="true" /> Log out</>} /></div></details>
     </div>
   </div></header>;
 }
